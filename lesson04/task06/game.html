@@ -1,0 +1,94 @@
+<!--* На базе игры, созданной на уроке, реализовать игру «Кто хочет стать миллионером?»-->
+
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<script>
+    let currentQuestionIndex = 0;
+
+    const questions = [
+        {
+            title: 'Сколько раз в сутки подзаводят куранты Спасской башни Кремля?',
+            answers: ['Один', 'Два', 'Три', 'Четыре'],
+            correct: 'Два',
+            followUp: 'Это уже январь 2005-го. Страна приходит в себя после первых в истории 10-дневных новогодних каникул. А Максим Галкин спрашивает Леонида Агутина и Анжелику Варум про подзавод курантов, под которые совсем недавно выступал президент.',
+        },
+        {
+            title: 'Кто 1-м получил Нобелевскую премию по литературе?',
+            answers: ['Романист', 'Драматург', 'Поэт', 'Эссеист'],
+            correct: 'Поэт',
+            followUp: 'Всего 2 недели спустя жительница столицы Галина Семенова оказалась смелее Анжелики Варум. Смелее, но не удачливее. Первым лауреатом Нобелевской премии по литературе стал француз Сюлли Прюдом, и, вопреки ответу Семеновой, он оказался поэтом. Все-таки правильно говорили современники по всей Европе: лучше бы премию дали Толстому!',
+        },
+        {
+            title: 'С какой буквы начинаются слова, опубликованные в 16-м томе последнего издания Большой советской энциклопедии?',
+            answers: ['М', 'Н', 'О', 'П'],
+            correct: 'М',
+            followUp: 'У актера Валентина Смирнитского Большая советская энциклопедия дома не завалялась, и он не стал отвечать на вопрос. На самом деле 16-й том это «Мезия» — «Моршанск». А купить все 30 томов в интернете сейчас можно тысяч за пять.',
+        },
+    ]
+
+    function chooseAnswer(question) {
+        const title = question.title;
+        const answers = question.answers;
+        const correct = question.correct;
+        const followUp = question.followUp;
+
+        let displayText = 'Вопрос ' + currentQuestionIndex + ': ' + title;
+        displayText += '\n';
+
+        answers.forEach(function (text, index) {
+           displayText += '\n' + index + '. ' + text;
+        });
+        displayText += '\n-1. Выход';
+
+        function main() {
+            const answer = prompt(displayText);
+
+            if (!answer) {
+                alert('Выбор обязателен');
+                return main();
+            }
+
+            if (answer === '-1') {
+                return;
+            }
+
+            let answerText = 'Вы выбрали ' + answer + '\n';
+            if (!answers[answer]) {
+                answerText += 'Такого ответа нет среди возможных';
+                alert(answerText);
+                return main();
+            }
+
+            if (correct.toLowerCase() === answers[answer].toLowerCase()) {
+                answerText += 'Вы миллионер!';
+                answerText += '\n';
+                answerText += followUp;
+                currentQuestionIndex += 1;
+            } else {
+                answerText += 'Это неправильный ответ, с вас миллион';
+            }
+            alert(answerText);
+            showNextQuestion();
+        }
+
+        main();
+    }
+
+    function showNextQuestion() {
+        const nextQuestion = questions[currentQuestionIndex];
+        if (nextQuestion) {
+            chooseAnswer(nextQuestion);
+        } else {
+            alert('У наc закончились вопросы. Уходите.');
+        }
+    }
+
+    showNextQuestion();
+</script>
+
+</body>
+</html>
